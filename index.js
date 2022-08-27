@@ -6,12 +6,16 @@ function createWindow () {
     width: 800,
     height: 600,
     title: "Simple Social",
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
   })
 
+  win.maximize()
+
   win.loadFile('index.html')
+
 }
 
 app.whenReady().then(() => {
