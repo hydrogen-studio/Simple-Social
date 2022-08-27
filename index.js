@@ -5,6 +5,7 @@ function createWindow () {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    title: "Simple Social",
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
