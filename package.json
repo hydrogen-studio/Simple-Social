@@ -18,5 +18,10 @@
   "homepage": "https://github.com/hydrogen-studio/codenamehere#readme",
   "devDependencies": {
     "electron": "^20.1.0"
+  },
+  "dependencies": {
+    "sentiment": "^5.0.2",
+    "swearjar": "^0.2.0",
+    "write-good": "^1.0.8"
   }
 }
