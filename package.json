@@ -4,7 +4,9 @@
   "description": "An app that prevent bullying in social media",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build"
   },
   "repository": {
     "type": "git",
@@ -16,8 +18,23 @@
     "url": "https://github.com/hydrogen-studio/codenamehere/issues"
   },
   "homepage": "https://github.com/hydrogen-studio/codenamehere#readme",
+  "build": {
+    "appId": "simplesocial",
+    "category": "com.simple.social",
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    }
+  },
   "devDependencies": {
-    "electron": "^20.1.0"
+    "electron": "^20.1.0",
+    "electron-builder": "^23.3.3"
   },
   "dependencies": {
     "sentiment": "^5.0.2",
