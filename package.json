@@ -1,0 +1,22 @@
+{
+  "name": "simple_social",
+  "version": "1.0.0",
+  "description": "An app that prevent bullying in social media",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hydrogen-studio/codenamehere.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hydrogen-studio/codenamehere/issues"
+  },
+  "homepage": "https://github.com/hydrogen-studio/codenamehere#readme",
+  "devDependencies": {
+    "electron": "^20.1.0"
+  }
+}
