@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 let { ipcMain } = require("electron")
 let { sentiment, grammarHelper, isNice } = require("./util/algorithms.js")
+const storage = require('electron-json-storage');
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -40,7 +41,20 @@ app.on('window-all-closed', () => {
 ipcMain.handle("analyze", (event, message) => {
   let sentimentResult = sentiment(message)
   let grammar = grammarHelper(message);
-  let grammarResult = grammar.length == 0 ? [ "None" ] : grammar
+  let grammarResult = grammar
   let isNiceResult = isNice(message);
-  return isNiceResult
+  var doc = { 
+    sentRes: sentimentResult,
+    grammarRes: grammarResult, 
+    isNiceRes: isNiceResult
+  };
+
+  storage.set("result", doc, () => {
+    console.log("Temp Data Stored")
+  })
+  return doc
+})
+
+ipcMain.handle("result", (event, message) => {
+  return storage.getSync("result")
 })

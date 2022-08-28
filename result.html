@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Simple Social</title>
+    <title>Result - Simple Social</title>
     <meta name="description" content="Helping the communities by reducing the risk of the message hurting other's feelings">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic&amp;display=swap">
@@ -15,8 +15,8 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
-        <div class="container"><a class="navbar-brand" href="#">Simple Social</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
-            <div class="collapse navbar-collapse" id="navcol-1"></div>
+        <div class="container"><a class="navbar-brand">Simple Social</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
+            <div class="collapse navbar-collapse" id="navcol-1"><a class="btn btn-primary ms-auto" role="button" href="index.html">Return to Home</a></div>
         </div>
     </nav>
     <header class="text-center text-white masthead" style="background:url('assets/img/bg-masthead.jpg')no-repeat center center;background-size:cover;">
@@ -24,15 +24,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-9 mx-auto position-relative">
-                    <h1 class="mb-5">Simple Social helps decide if a message will hurt other's feelings!</h1>
-                </div>
-                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto position-relative">
-                    <form>
-                        <div class="row">
-                            <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control" type="text" placeholder="Enter your message..." style="height: 100%;"></div>
-                            <div class="col-12 col-md-3"><button class="btn btn-primary btn-lg" type="submit">Check</button></div>
-                        </div>
-                    </form>
+                    <h1 class="mb-5">Result</h1>
                 </div>
             </div>
         </div>
@@ -43,22 +35,22 @@
                 <div class="col-lg-4">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                         <div class="d-flex features-icons-icon"><i class="icon-screen-desktop m-auto text-primary" data-bss-hover-animate="pulse"></i></div>
-                        <h3>Trained by hand</h3>
-                        <p class="lead mb-0">Our algorithms are trained by hand and are downloaded directly onto you computer with this app to provide faster response time</p>
+                        <h3>Sentiment Analysis Result</h3>
+                        <p class="lead mb-0" id="sentRes"></p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                         <div class="d-flex features-icons-icon"><i class="icon-layers m-auto text-primary" data-bss-hover-animate="pulse"></i></div>
-                        <h3>Multiple Layers</h3>
-                        <p class="lead mb-0">Our backend algorithms consists of layers of scanning to minimize the chance of the message hurting other people.</p>
+                        <h3>Grammar Suggestions</h3>
+                        <p class="lead mb-0" id="grammarRes"></p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                         <div class="d-flex features-icons-icon"><i class="icon-check m-auto text-primary" data-bss-hover-animate="pulse"></i></div>
-                        <h3>Easy to Use</h3>
-                        <p class="lead mb-0">Type in the box, press check, and boom! The analysis is out!</p>
+                        <h3>Overall Analysis</h3>
+                        <p class="lead mb-0" id="isNiceRes"></p>
                     </div>
                 </div>
             </div>
@@ -83,16 +75,36 @@
 <script>
     let { ipcRenderer } = require("electron")
 
-let form = document.querySelector("form")
-let input = document.querySelector("input")
+    window.onload = async function () {
+        let res = await ipcRenderer.invoke("result")
+        console.log(res)
+        let grammar = res.grammarRes
+        let grammarRes = []
+        if(grammar.length == 0){
+            grammarRes = ["No grammar suggestions are provided!"]
+        }else{
+            for(i in grammar){
+                grammarRes.push(grammar[i].reason)
+            }
+        }
+        let sent = res.sentRes;
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault()
-  let message = input.value
-  input.value = ""
-  let responseText = await ipcRenderer.invoke("analyze", message)
-  window.location.href = "result.html"
-})
+        let sentiRes = `Raw Score: ${sent.score}
+Comparative Score: ${sent.comparative.toFixed(2)}
+        `
+
+        let isNice = res.isNiceRes
+
+        let isNiceRes = `Message is nice: ${isNice.isNice}
+Recommendation: ${isNice.message}
+        `
+
+        document.getElementById("sentRes").innerText = sentiRes
+        document.getElementById("grammarRes").innerText = grammarRes.join("\n")
+        document.getElementById("isNiceRes").innerText = isNiceRes
+
+        
+    }
 </script>
 
 </html>

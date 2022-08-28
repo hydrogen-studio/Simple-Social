@@ -2,17 +2,19 @@
   "name": "simple_social",
   "version": "1.0.0",
   "description": "An app that prevent bullying in social media",
-  "main": "main.js",
+  "main": "index.js",
+  "author": "simple social",
   "scripts": {
-    "start": "electron .",
+    "start": "electron-forge start",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "build",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hydrogen-studio/codenamehere.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hydrogen-studio/codenamehere/issues"
@@ -33,12 +35,45 @@
     }
   },
   "devDependencies": {
-    "electron": "^20.1.0",
-    "electron-builder": "^23.3.3"
+    "@electron-forge/cli": "^6.0.0-beta.65",
+    "@electron-forge/maker-deb": "^6.0.0-beta.65",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
+    "@electron-forge/maker-zip": "^6.0.0-beta.65",
+    "electron": "^20.1.0"
   },
   "dependencies": {
+    "electron-json-storage": "^4.5.0",
+    "electron-squirrel-startup": "^1.0.0",
     "sentiment": "^5.0.2",
     "swearjar": "^0.2.0",
     "write-good": "^1.0.8"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "simple_social"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
