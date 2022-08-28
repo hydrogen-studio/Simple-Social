@@ -20,20 +20,6 @@
     "url": "https://github.com/hydrogen-studio/codenamehere/issues"
   },
   "homepage": "https://github.com/hydrogen-studio/codenamehere#readme",
-  "build": {
-    "appId": "simplesocial",
-    "category": "com.simple.social",
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ]
-    },
-    "win": {
-      "target": "NSIS",
-      "icon": "build/icon.ico"
-    }
-  },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.65",
     "@electron-forge/maker-deb": "^6.0.0-beta.65",
@@ -51,7 +37,9 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "logos/logo.ico"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
